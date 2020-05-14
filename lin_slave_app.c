@@ -631,12 +631,28 @@ TIM1_CR1 |= 0x01; //使能TIM1计数器
     GPIOD_ODR &= ~0x10; //PD4
     GPIOD_DDR |= 0x10;
     GPIOD_CR1 |= 0x10;
+    GPIOD_CR2 |= 0x10;
     GPIOD_ODR |= 0x10;  
-    
+
+#ifdef __STM8AF6223A__   
+    GPIOC_ODR &= ~0x70; //PC 6 5 4
+    GPIOC_DDR |= 0x70;
+    GPIOC_CR1 |= 0x70;
+    GPIOC_CR2 |= 0x70;
+    GPIOC_ODR |= 0x70;     
+
+    GPIOB_ODR &= ~0x01; //PB 0
+    GPIOB_DDR |= 0x01;
+    GPIOB_CR1 |= 0x01;
+    GPIOB_CR2 |= 0x01;
+    GPIOB_ODR |= 0x01; 
+#else
     GPIOC_ODR &= ~0x78; //PC 6 5 3 4
     GPIOC_DDR |= 0x78;
     GPIOC_CR1 |= 0x78;
-    GPIOC_ODR |= 0x78;    
+    GPIOC_CR2 |= 0x78;
+    GPIOC_ODR |= 0x78;  
+#endif
      
     CLK_CCO |= 0x08; /* select fcpu for CCO output */
     CLK_CCO |= 0x01; /* CCO output enable*/

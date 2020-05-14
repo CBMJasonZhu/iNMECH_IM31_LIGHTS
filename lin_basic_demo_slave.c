@@ -514,6 +514,7 @@ void Display_Led(unsigned char mode)
  * - none
  *
  */
+#define ALL_INTERVAL 28
 void l_cyclicTask(void)
 {
 unsigned char i;
@@ -525,7 +526,7 @@ unsigned char i;
   #endif
 #endif
    
-         timeCnt=timeCnt%6+1;
+         timeCnt=timeCnt%ALL_INTERVAL+1;
    
 /*****************流水处理*******************/
          switch(timeCnt)
@@ -548,17 +549,31 @@ unsigned char i;
             else if(IndicationLampMode==5)//吧台打开
               Display_Led(6);//中间向两边流水
             else if(IndicationLampMode==6)//吧台关闭
-              Display_Led(8);//全亮
-            else if(IndicationLampMode==7)//全亮
+              Display_Led(8);//两边向中间
+            else if(IndicationLampMode==7)//吧台关闭
               for(i=0;i<18;i++)
                 LEDS_bit[i]=1;
             ALED_TurnOnOff();
           break;
-         case 2:
-           break;
-         case 3:
-           break;
-         case 4:
+         case (ALL_INTERVAL/2)+1:
+           if(IndicationLampMode!=last_IndicationLampMode)
+           {
+              led_flow_bit=0;led_flow_dir=0;
+              for(i=0;i<18;i++)
+                LEDS_bit[i]=0;
+           }
+            if(IndicationLampMode==0)
+              Display_Led(0);
+            else if(IndicationLampMode==2)
+              Display_Led(4);
+            else if(IndicationLampMode==3)
+              Display_Led(5);
+            else if(IndicationLampMode==4)
+              Display_Led(7);
+            else if(IndicationLampMode==7)//吧台关闭
+              for(i=0;i<18;i++)
+                LEDS_bit[i]=1;
+            ALED_TurnOnOff();
            break;
          }
 /********************************************/

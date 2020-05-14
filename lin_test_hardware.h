@@ -386,8 +386,13 @@ STACK void linIrqEnable
 #define SPI_CLK_HIGH            GPIOC_ODR |= 0x20    
 #define SPI_CLK_LOW             GPIOC_ODR &= 0xdf
 
+#ifdef __STM8AF6223A__
+#define SPI_LE_HIGH             GPIOB_ODR |= 0x01
+#define SPI_LE_LOW              GPIOB_ODR &= 0xFE
+#else
 #define SPI_LE_HIGH             GPIOC_ODR |= 0x08
-#define SPI_LE_LOW              GPIOC_ODR &= 0xF7
+#define SPI_LE_LOW              GPIOC_ODR &= 0xF7     
+#endif
 
 #define SPI_DAT_HIGH            GPIOC_ODR |= 0x40
 #define SPI_DAT_LOW             GPIOC_ODR &= 0xBF
